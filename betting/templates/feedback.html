@@ -1,0 +1,31 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="site-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <form action="send_feedback" method="POST">
+            {% csrf_token %}
+
+
+            <div class="form-group">
+                <input type="text" class="form-control" name="subject" placeholder="Regarding to?" />
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" name="message" rows="3" placeholder="Your feedback here"></textarea>
+
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary py-3 px-5" value="Send">
+            </div>
+          </form>  
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+  {% endblock %}

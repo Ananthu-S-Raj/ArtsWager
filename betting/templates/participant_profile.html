@@ -1,0 +1,124 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<link rel="stylesheet" href="{% static 'css/profileDesign.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<div class="profile-container d-flex justify-content-center align-items-center">
+             
+    <div class="profile-card">
+
+     <div class="profile-upper">
+
+       <img src="https://i.imgur.com/Qtrsrk5.jpg" class="profile-image img-fluid">
+       
+     </div>
+
+     <div class="profile-user text-center">
+
+       <div class="profile-avatar">
+
+         <!-- <img src="https://i.imgur.com/JgYD2nQ.jpg" class="rounded-circle profile-picture" width="80"> -->
+         <span id="avatar" class="material-symbols-outlined">
+          account_circle
+          </span>
+         
+       </div>
+
+     </div>
+
+
+     <div class="profile-info text-center">
+
+       <h4 class="profile-name">{{result.name}}</h4>
+       <span class="profile-location text-muted d-block mb-2">Email : {{result.email}}</span>
+       <span class="profile-location text-muted d-block mb-2">Phone : {{result.phone_number}}</span>
+       <span class="profile-location text-muted d-block mb-2">Gender : {{result.gender}}</span>
+       <span class="profile-location text-muted d-block mb-2">Age : {{result.age}}</span>
+       <span class="profile-location text-muted d-block mb-2">Category : {{result.category}}</span>
+
+
+       <div class="profile-stats d-flex justify-content-between align-items-center mt-4 px-4">
+
+
+         
+       </div>
+       
+     </div>
+      
+    </div>
+
+  </div>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+  
+  .profile-container{
+    height: 100vh;
+    background-color: #222831;
+  }
+  
+  .profile-card{
+    width: 380px;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    height: 370px;
+  }
+  
+  .profile-name{
+    color: rgb(238, 30, 70);
+    margin-top: 25px;
+    font-weight: 500;
+
+  }
+  
+  .profile-upper{
+    height: 100px;
+  }
+  
+  .profile-upper img{
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .profile-user{
+    position: relative;
+  }
+  
+  .profile-avatar img{
+    height: 80px;
+    width: 80px;
+    margin-top:2px;
+  }
+  
+  .profile-avatar{
+    position: absolute;
+    top:-50px;
+    left: 38%;
+    height: 90px;
+    width: 90px;
+   border-radius: 50%;
+  }
+  
+  .profile-follow{
+    border-radius: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 35px;
+  }
+  
+  .profile-stats span{
+    font-size: 29px;
+  }
+  #avatar{
+    font-size: 80px;
+    color: green;
+    }
+  </style>
+
+{% include 'footer.html' %}
+{% endblock %}

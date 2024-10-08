@@ -1,0 +1,130 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="site-section">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-7">
+                <form action="confirm_bet" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="main_balance" value="{{request.session.balance}}" hidden>
+                    <div class="form-group">
+                        <label for="item" style="color: #ee1e46;">Select an item</label>
+                        <select id="item" name="item" class="form-control" style="background-color:#222831;">
+                            <option value="">Choose</option>
+                            <option value="Classical Music">Classical Music</option>
+                            <option value="Light Music">Light Music</option>
+                            <option value="Folk Dance">Folk Dance</option>
+                            <option value="Mono Act">Mono Act</option>
+                            <option value="Group Dance">Group Dance</option>
+                            <option value="Fancy Dress">Fancy Dress</option>
+                            <option value="Mimicry">Mimicry</option>
+                            <option value="Mohiniyattam">Mohiniyattam</option>
+                            <option value="Thiruvathira">Thiruvathira</option>
+                            <option value="Mime">Mime</option>
+                            <option value="Painting">Painting</option>
+                            <option value="Cartoon">Cartoon</option>
+                            <option value="Clay Modelling">Clay Modelling</option>
+                            <option value="Essay Writing">Essay Writing</option>
+                            <option value="Recitation">Recitation</option>
+                            <option value="Debate">Debate</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Story Telling">Story Telling</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district" style="color: #ee1e46;">Select district</label>
+                        <select id="district" name="district" class="form-control" style="background-color:#222831;">
+                            <option value="">Select a location</option>
+                            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                            <option value="Kollam">Kollam</option>
+                            <option value="Alappuzha">Alappuzha</option>
+                            <option value="Pathanamthitta">Pathanamthitta</option>
+                            <option value="Kottayam">Kottayam</option>
+                            <option value="Idukki">Idukki</option>
+                            <option value="Ernakulam">Ernakulam</option>
+                            <option value="Thrissur">Thrissur</option>
+                            <option value="Palakkad">Palakkad</option>
+                            <option value="Malappuram">Malappuram</option>
+                            <option value="Kozhikode">Kozhikode</option>
+                            <option value="Wayanad">Wayanad</option>
+                            <option value="Kannur">Kannur</option>
+                            <option value="Kasaragod">Kasaragod</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="position" style="color: #ee1e46;">What will ne their position?</label>
+                        <select id="position" name="position" class="form-control" style="background-color:#222831;">
+                            <option value="">Choose</option>
+                            <option value="first">First</option>
+                            <option value="second">Second</option>
+                            <option value="third">Third</option>
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="confirmation_checkbox" required>
+                        <label for="confirmation_checkbox">I agree that my selection is final and accepting the terms and conditions.</label>
+                    </div>
+                    <div class="form-group">
+                        <input style="background-color: black;color: #269126;" type="text" class="form-control" readonly value="200" name="payment" placeholder="Pay Rs.200" />
+                      </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary py-3 px-5" value="Confirm" id="submit_button">
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="col-lg-5 mx-auto">
+                <!-- New section content goes here -->
+                <div class="section-right-content text-center">
+                    <a href="http://127.0.0.1:8000/t_a_result" class="nav-link" id="predict-btn">Guide me to Bet</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('submit_button').addEventListener('click', function (event) {
+        if (!document.getElementById('confirmation_checkbox').checked) {
+            event.preventDefault(); // Prevent form submission if checkbox is not checked
+            alert('Please confirm your selection.');
+        }
+    });
+</script>
+<style>
+    #predict-btn {
+        background-color: #218621;
+        color: white;
+        width: 167px;
+        height: 44px;
+        text-align: center;
+        border-radius: 20px;
+        border: 1px solid white;
+        margin-top: 128px;
+        margin-left: 190px;
+
+    }
+
+    #predict-btn:hover {
+        background-color: #269126;
+        transform: scale(1.02);
+        transition: ease-in-out 0.4s;
+
+    }
+
+    .section-right-content {
+        text-align: center;
+        justify-content: center;
+    }
+</style>
+{% include 'footer.html' %}
+{% endblock %}

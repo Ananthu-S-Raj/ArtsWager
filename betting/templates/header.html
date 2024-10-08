@@ -1,0 +1,147 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ArtsWager</title>
+  <link rel="icon" type="image" href="{% static '/images/favicon.png' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+
+  <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'css/validation.css' %}">
+
+
+
+</head>
+
+<body>
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+    <header class="site-navbar py-4" role="banner">
+
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <div class="site-logo">
+            <a href="http://127.0.0.1:8000/first">
+              ArtsWager
+              <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
+            </a>
+          </div>
+          <div class="ml-auto">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                {% if request.session.admin_details %}
+                <li class="{% if request.path == '/first' %}active{% endif %}"><a href="http://127.0.0.1:8000/first" class="nav-link">Home</a>
+                </li>
+                <!-- <li class="{% if request.path == '/view_events' %}active{% endif %}"><a href="view_events"
+                    class="nav-link">View Events</a></li> -->
+                <!-- <li><a href="view_participiants" class="nav-link">View Participiants</a></li> -->
+                <li class="{% if request.path == '/view_feedbacks' %}active{% endif %}"><a href="http://127.0.0.1:8000/view_feedbacks"
+                    class="nav-link">Feedbacks</a></li>
+                <li class="{% if request.path == '/bet_list' %}active{% endif %}"><a href="http://127.0.0.1:8000/bet_list"
+                    class="nav-link">Bet History</a></li>
+                <li class="{% if request.path == '/users_list' %}active{% endif %}"><a href="http://127.0.0.1:8000/users_list"
+                    class="nav-link">Users</a></li>
+
+                <li class="{% if request.path == '/logout' %}active{% endif %}"><a href="http://127.0.0.1:8000/logout"
+                    class="nav-link">Logout</a></li>
+
+                {% elif request.session.uid %}
+
+                <li class="{% if request.path == '/first' %}active{% endif %}"><a href="http://127.0.0.1:8000/first" class="nav-link">Home</a>
+                </li>
+                <!-- <li class="{% if request.path == '/view_events' %}active{% endif %}"><a href="view_events"
+                    class="nav-link">View Events</a></li> -->
+                <li class="{% if request.path == '/user_profile' %}active{% endif %}"><a href="http://127.0.0.1:8000/user_profile"
+                    class="nav-link">View profile</a></li>
+                <li class="{% if request.path == '/history' %}active{% endif %}"><a href="http://127.0.0.1:8000/history"
+                    class="nav-link">History</a></li>
+                <li class="{% if request.path == '/feedback' %}active{% endif %}"><a href="http://127.0.0.1:8000/feedback"
+                    class="nav-link">Feedback</a></li>
+                    <li class="{% if request.path == '/t_a_result' %}active{% endif %}"><a href="http://127.0.0.1:8000/t_a_result"
+                      class="nav-link">Graphs</a></li>
+                <li class="{% if request.path == '/logout' %}active{% endif %}"><a href="http://127.0.0.1:8000/logout"
+                    class="nav-link">Logout</a></li>
+                    
+                <!-- Add similar logic for other menu items -->
+
+
+                {% elif request.session.creator_id %}
+                <!-- Event Creator -->
+                <li class="{% if request.path == '/first' %}active{% endif %}"><a href="http://127.0.0.1:8000/first" class="nav-link">Home</a>
+                </li>
+                <li class="{% if request.path == '/create_event' %}active{% endif %}"><a href="http://127.0.0.1:8000/create_event"
+                    class="nav-link">Create Events</a></li>
+                <li class="{% if request.path == '/view_events' %}active{% endif %}"><a href="http://127.0.0.1:8000/view_events"
+                    class="nav-link">Created Events</a></li>
+                <!-- <li class="{% if request.path == '/first' %}active{% endif %}"><a href="participants" class="nav-link"> Participants</a></li> -->
+                <li class="{% if request.path == '/declare_result' %}active{% endif %}"><a href="http://127.0.0.1:8000/declare_result"
+                    class="nav-link"> Declare Result</a></li>
+                <li class="{% if request.path == '/logout' %}active{% endif %}"><a href="http://127.0.0.1:8000/logout"
+                    class="nav-link">Logout</a></li>
+
+                <!-- {% elif request.session.participiant_id %}
+
+                <li class="active"><a href="first" class="nav-link">Home</a></li>
+                <li class=""><a href="my_events" class="nav-link">Events</a></li>
+                <li class=""><a href="check_status" class="nav-link">Demo</a></li>
+                <li class=""><a href="my_result" class="nav-link"> Results</a></li>
+                <li class=""><a href="history" class="nav-link">History</a></li>
+                <li class=""><a href="parti_profile" class="nav-link">Profile</a></li>
+                <li class=""><a href="feedback" class="nav-link">Feedback</a></li>
+                <li class=""><a href="logout" class="nav-link">Logout</a></li> -->
+
+                {% else %}
+
+                <li class="{% if request.path == '/first' %}active{% endif %}"><a href="http://127.0.0.1:8000/first" class="nav-link">Home</a>
+                </li>
+                <li class="{% if request.path == '/addlogin' %}active{% endif %}"><a href="http://127.0.0.1:8000/addlogin"
+                    class="nav-link">Login</a></li>
+                <li class="{% if request.path == '/reg' %}active{% endif %}"><a href="http://127.0.0.1:8000/reg" class="nav-link">User
+                    Registration</a></li>
+                <!-- <li><a href="new_participant" class="nav-link">New Participiant</a></li> -->
+                <!-- <li class="{% if request.path == '/creator_reg' %}active{% endif %}"><a href="creator_reg" class="nav-link">Creator Registration</a></li> -->
+
+                {% endif %}
+              </ul>
+            </nav>
+
+            <a href="#"
+              class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right text-white"><span
+                class="icon-menu h3 text-white"></span></a>
+          </div>
+        </div>
+      </div>
+
+    </header>
+    {% endblock %}

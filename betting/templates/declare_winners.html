@@ -1,0 +1,59 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<div class="site-section">
+    <div class="container">
+        <div class="row" id="table-row">
+            <div class="col-lg-12">
+                <table class="event-list" border="1">
+                    <tr>
+
+                        <!-- <th>Sl.no</th> -->
+                        <th>Name</th>
+                        <th>Item</th>
+                        <th>Predicted District</th>
+                        <th>Predicted Position</th>
+                        <th>Declare Prize</th>
+                        
+
+                    </tr>
+                    {% for i in data %}
+                    <tr>
+
+                        <td>{{i.u_name}}</td>
+                        <td>{{i.item}}</td>
+                        <td>{{i.district}}</td>
+                        <td>{{i.position}}</td>
+                        <td>
+                            <form action="confirm_winner" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ i.user_id }}">
+                                <input type="hidden" name="u_name" value="{{ i.u_name }}">
+                                <input type="hidden" name="u_email" value="{{ i.u_email }}">
+                                <input type="hidden" name="item" value="{{ i.item }}">
+                                <input type="radio" name="prize" value="first">
+                                <label for="prize"> 1st </label>
+                                <input type="radio" name="prize" value="second">
+                                <label for="prize">2nd</label>
+                                <input type="radio" name="prize" value="third">
+                                <label for="prize">3rd</label>
+                                <input type="radio" name="prize" value="Nil">
+                                <label for="prize">Nil</label>
+                                <br>
+                                <input type="submit" value="Confirm"><br>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

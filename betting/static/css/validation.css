@@ -1,0 +1,30 @@
+.password-strength-container {
+    display: flex; /* Use flexbox to display its children inline */
+    align-items: center; /* Align items vertically in the center */
+}
+
+#password-strength-indicator {
+    flex: 1; /* Make the progress bar take up remaining space */
+    margin-right: 10px; /* Add some space between the progress bar and the status */
+}
+
+.progress {
+    height: 5px;
+    margin-top: 10px;
+    background-color: transparent;
+    width: 50%;
+}
+#password-err{
+    margin-top: 20px;
+}
+.bg-danger {
+    background-color: red;
+}
+
+.bg-warning {
+    background-color: orange;
+}
+
+.bg-success {
+    background-color: green;
+}

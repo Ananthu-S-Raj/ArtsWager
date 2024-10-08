@@ -1,0 +1,52 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="site-section">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center" id="table-row">
+        <div class="col-lg-7">
+            <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+            <table class="event-list" id="#event-list" border="1">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Venue</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                {% for j in submission_info %}
+                <tr>
+                    <td>{{ j.item }}</td>
+                    <td>{{ j.venue }}</td>
+                    <td>{{ j.date }}</td>
+                    <td>{{ j.time }}</td>
+                    <td>{{ j.status }}</td>
+                    <td>
+                        <form method="post" action="participation_request">
+                            {% csrf_token %}
+                            <input type="hidden" name="chest_number" value="0">
+                            <input type="hidden" name="name" value="Nil">
+                            <input type="hidden" name="item" value="" placeholder="">
+                            <input type="hidden" name="venue" value="">
+                            <input type="hidden" name="time" value="">
+                            {% if j.status == "submitted" %}
+                            <button type="submit" disabled>Submitted</button>
+                            {% else %}
+                            <button type="submit">Submit</button>
+
+                            {% endif %}
+            
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+  {% endblock %}

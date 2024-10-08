@@ -1,0 +1,45 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+<div class="site-section">
+    <div class="container">
+        <div class="row" id="table-row">
+            <div class="col-lg-7">
+                <table class="event-list" border="1">
+                    <tr>
+
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Item</th>
+                        <th>Result</th>
+
+                    </tr>
+                    {% for i in result %}
+                
+                    <tr>
+
+                        <td>{{ forloop.counter}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.category}}</td>
+                        <td>{{i.item}}</td>
+                        <!-- <td> <a href="first/{{i.id}}">First</a><br>
+                            <a href="second/{{i.id}}">Second</a><br>
+                            <a href="third/{{i.id}}">Third</a><br>
+                            <a href="failed/{{i.id}}">Failed</a><br> -->
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

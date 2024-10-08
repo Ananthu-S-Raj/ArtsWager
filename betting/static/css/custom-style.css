@@ -1,0 +1,24 @@
+ .latest-news .post-entry img {
+     -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); 
+    /* height: 400px; */
+  }
+  .post-entry {
+    margin-bottom: 20px; /* Adjust the value as needed to create the desired gap */
+     /* margin-right:20px ; */
+}  
+#footer-elements {
+  justify-content: center;
+}
+
+.footer-section .widget {
+  text-align: center;
+}
+#trophy-img,#trophy-img-2{
+  width: 50px;
+  height: 60px;
+}

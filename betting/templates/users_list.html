@@ -1,0 +1,116 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="card-container">
+
+    
+
+    {% for i in result %}
+    <div class="card">
+        <h1 style="color:rgb(10, 145, 10);">{{ i.name }}</h1>
+        <p>{{ i.email }}</p>
+        <p>{{ i.phone_number }}</p>
+        <form action="del_user" method="post" onsubmit="confirmDelete(event)">
+            {% csrf_token %}
+            <input type="number" name="user_id" hidden value="{{ i.id }}">
+            <input type="submit" class="del-user" value="Delete user">
+        </form>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% if messages %}
+<div id="alert-container" class="alert alert-warning" role="alert">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% include 'footer.html' %}
+
+{% endblock %}
+
+<style>
+    .del-user {
+        color: white;
+        background-color: rgb(191, 115, 33);
+        border: none;
+        border-radius: 5px;
+        margin-left: 60px;
+    }
+
+    .del-user:hover {
+        color: white;
+        background-color: red;
+        transform: scale(1.02);
+        transition: ease-in-out;
+    }
+
+    :root {
+        font-size: 10px;
+    }
+
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    p:not(:last-child) {
+        margin-bottom: 1.5em;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 20px;
+        justify-content: center;
+        padding: 20px;
+        padding-top: 100px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        max-width: 268px;
+        /* Adjusted max-width for responsiveness */
+        height: 250px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 20px;
+        background-color: rgba(0, 0, 0, 0.45);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(15px);
+    }
+
+    .card:hover {
+        border: 2px solid #ee1e46;
+        transform: scale(1.04);
+        transition: ease-in-out 0.5s;
+    }
+
+    .card-footer {
+        font-size: 0.65em;
+        color: #446;
+    }
+</style>
+
+<script>
+    // Function to hide the alert after 2 seconds
+    setTimeout(function() {
+        var alertContainer = document.getElementById('alert-container');
+        if (alertContainer) {
+            alertContainer.style.display = 'none';
+        }
+    }, 2500); // 2500 milliseconds = 2.5 seconds
+</script>

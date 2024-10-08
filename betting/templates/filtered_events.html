@@ -1,0 +1,57 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center" id="table-row">
+            <div class="col-lg-7">
+                <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+                <table class="event-list" id="event-list1" border="1">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Venue</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for i in result %}
+                        <tr>
+                            <td>{{ i.item }}</td>
+                            <td>{{ i.venue }}</td>
+                            <td>{{ i.date }}</td>
+                            <td>{{ i.time }}</td>
+                            <td>
+                                <form method="post" action="participation_request">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="chest_number" value="0">
+                                    <input type="hidden" name="name" value="Nil">
+                                    <input type="hidden" name="item" value="{{ i.item }}">
+                                    <input type="hidden" name="venue" value="{{ i.venue }}">
+                                    <input type="hidden" name="time" value="{{ i.time }}">
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <table class="event-list" id="event-list2" border="1">
+
+                    {% for j in reg_info %}
+                        {% if j.status == "submitted" %}
+                            <tr>
+                                <td>{{ j.item }}</td>
+                                <td>{{ j.venue }}</td>
+                                <td>{{ j.date }}</td>
+                                <td>{{ j.time }}</td>
+                                <td>{{ j.status }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

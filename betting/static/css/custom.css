@@ -1,0 +1,26 @@
+ table{
+    text-align: center;
+    justify-content: center;
+    border: none;
+    width: 100%;
+    margin-top: 50px;
+
+}
+.event-list th{
+    background-color: #ee1e46;
+    border: none;
+    color: white;
+    padding: 10px;
+
+}
+.event-list td{
+    border: none;
+    color: aliceblue;
+    padding: 7px;
+
+    
+}
+.event-list tr{
+    padding-top: 20px;
+
+}

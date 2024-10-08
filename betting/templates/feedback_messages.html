@@ -1,0 +1,30 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+<link rel="stylesheet" href="{% static 'css/feedback.css' %}">
+<link hr="stylesheet" href="{% static 'css/feedback.css' %}">
+<script src="{% static 'js/feedback.js' %}"></script>
+<div class="site-section">
+    <div class="container">
+        <div class="row" id="table-row">
+            <div class="col-lg-7">
+
+                {% for i in result %}
+                <ul class="chat-thread">
+                <li>{{i.id}}<br>
+                <br>ID:{{i.p_id}}<br>
+                <br>Subject:{{i.subject}}<br>
+                <br>Message:{{i.message}}</li>
+                </ul>
+                {% endfor %}
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

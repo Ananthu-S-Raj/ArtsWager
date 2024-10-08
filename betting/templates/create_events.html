@@ -1,0 +1,58 @@
+{% load static %}
+{% block content %}
+{% include 'header.html' %}
+
+<div class="site-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <form action="confirm_event" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="item" style="color: #ee1e46;">Select an item</label>
+              <select id="item" name="item" class="form-control"style="background-color:#222831;">
+                <option value="">Choose</option>
+                <option value="Mohiniyattam">Mohiniyattam</option>
+                <option value="Kathakali">Kathakali</option>
+                <option value="Ottanthullal">Ottanthullal</option>
+                <option value="Thiruvathira Kali">Thiruvathira Kali</option>
+                <option value="Margam Kali">Margam Kali</option>
+                <option value="Mappila Pattu">Mappila Pattu</option>
+                <option value="Oppana">Oppana</option>
+                <option value="Chavittu Nadakam">Chavittu Nadakam</option>
+                <option value="Thullal">Thullal</option>
+                <option value="Kuchipudi">Kuchipudi</option>
+            </select>            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="venue" placeholder="Venue number" />
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control" name="date" placeholder="Date" />
+            </div>
+            <div class="form-group">
+                <input type="time" class="form-control" name="time" placeholder="Time" />
+            </div>
+            <div class="form-group" class="form-control">
+
+                <label for="">Who can participate ?</label><br>
+
+                <input type="radio"  name="gender" value="male"/>
+                <label for="male">Male</label>
+                <input type="radio"  name="gender" value="female"/>
+                <label for="female">Female</label>
+                <input type="radio"  name="gender" value="everyone"/>
+                <label for="everyone">Everyone</label>
+
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary py-3 px-5" value="Confirm">
+            </div>
+          </form>  
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+  {% endblock %}
