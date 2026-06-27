@@ -29,7 +29,7 @@
                         <td>
                             <form action="confirm_winner" method="POST">
                                 {% csrf_token %}
-                                <input type="hidden" name="user_id" value="{{ i.user_id }}">
+                                <input type="hidden" name="bet_id" value="{{ i.id }}">
                                 <input type="hidden" name="u_name" value="{{ i.u_name }}">
                                 <input type="hidden" name="u_email" value="{{ i.u_email }}">
                                 <input type="hidden" name="item" value="{{ i.item }}">

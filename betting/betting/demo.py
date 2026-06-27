@@ -47,10 +47,6 @@ def register(request):
 
     return index(request)
 
-
-
-    return render(request, 'index.html')
-
 def login(request):
     email=request.POST.get('email')
     password=request.POST.get('password')

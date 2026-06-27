@@ -40,8 +40,8 @@ def register(request):
         name=request.POST.get('name')
         email=request.POST.get('email')
         phone=request.POST.get('phone')
-        balance=request.POST.get('phone')
-        password=request.POST.get('balance')
+        balance=request.POST.get('balance')
+        password=request.POST.get('password')
         
         UP=user_register(name=name,email=email,phone_number=phone,password=password,balance=balance)
         UP.save()
@@ -71,8 +71,9 @@ def creator_registration(request):
         UP.save()
         
         # Send email
+        subject = "Welcome to ArtsWager - Event Creator"
         msg = "Thank you for registering as an event creator!"
-        sends_mail(email, msg)
+        sends_mail(email, msg, subject)
 
         # Redirect or return response
         return HttpResponse("Registration successful. Email sent.")
@@ -80,38 +81,39 @@ def creator_registration(request):
     return render(request, 'index.html')
 
 def login(request):
-    email=request.POST.get('email')
-    password=request.POST.get('password')
-    if email=="admin@gmail.com" and password=="admin":
-        request.session['admin_details']=email
-        request.session['admin_details']=password
-        return render(request,'index.html')
-    
-    elif user_register.objects.filter(email=email,password=password).exists():
-        user=user_register.objects.get(email=email,password=password)
-        request.session['uid']=user.id
-        request.session['u_email']=user.email
-        request.session['u_name']=user.name
-        request.session['balance']=user.balance
-        # return render(request,'index.html')
-        return index(request)
-
-    elif event_creators.objects.filter(email=email,password=password).exists():
-        creator=event_creators.objects.get(email=email,password=password)
-        request.session['creator_id']=creator.id
-        return render(request,'index.html')
-    
-    elif participant_register.objects.filter(email=email,password=password,status="accepted").exists():
-        participiant=participant_register.objects.get(email=email,password=password)
-        request.session['participiant_id']=participiant.id
-        request.session['participiant_gender']=participiant.gender
-        return render(request,'index.html')
-    # status="accepted"
+    if request.method == "POST":
+        email=request.POST.get('email')
+        password=request.POST.get('password')
+        if email=="admin@gmail.com" and password=="admin":
+            request.session['admin_details']=email
+            return render(request,'index.html')
         
-    else:
-        messages.error(request,"Invalid login credentials or user does not exist.!")
+        elif user_register.objects.filter(email=email,password=password).exists():
+            user=user_register.objects.get(email=email,password=password)
+            request.session['uid']=user.id
+            request.session['u_email']=user.email
+            request.session['u_name']=user.name
+            request.session['balance']=user.balance
+            # return render(request,'index.html')
+            return index(request)
 
-        return render(request,'login.html')
+        elif event_creators.objects.filter(email=email,password=password).exists():
+            creator=event_creators.objects.get(email=email,password=password)
+            request.session['creator_id']=creator.id
+            return render(request,'index.html')
+        
+        elif participant_register.objects.filter(email=email,password=password,status="accepted").exists():
+            participiant=participant_register.objects.get(email=email,password=password)
+            request.session['participiant_id']=participiant.id
+            request.session['participiant_gender']=participiant.gender
+            return render(request,'index.html')
+        # status="accepted"
+            
+        else:
+            messages.error(request,"Invalid login credentials or user does not exist.!")
+
+            return render(request,'login.html')
+    return render(request,'login.html')
     
 def create_event(request):
         return render(request,'create_events.html')
@@ -142,12 +144,16 @@ def participants(request):
 
 
 def reqaccept(request,id):
+    if not request.session.get('admin_details'):
+        return redirect(first)
     s=participant_register.objects.get(id=id)
     s.status='accepted'
     s.save()
     return redirect(participants)   
     
 def reqreject(request,id):
+    if not request.session.get('admin_details'):
+        return redirect(first)
     s=participant_register.objects.get(id=id)
     s.status='rejected'
     s.save()
@@ -162,9 +168,13 @@ def feedback(request):
     return render(request,'feedback.html')
 def send_feedback(request):
     if request.method=="POST":
+        uid=request.session.get('uid')
+        u_name=request.session.get('u_name')
+        if not uid or not u_name:
+            return redirect(first)
         subject=request.POST.get('subject')
         message=request.POST.get('message')
-        UP=feedbacks(subject=subject,message=message,u_id=request.session['uid'],u_name=request.session['u_name'])
+        UP=feedbacks(subject=subject,message=message,u_id=uid,u_name=u_name)
         UP.save()
         # return render(request,'index.html')
         messages.success(request,"Feedback send successfully")
@@ -177,14 +187,20 @@ def view_feedbacks(request):
     return render(request,'view_feedback.html',{'result':data})
 
 def parti_profile(request):
-    data=participant_register.objects.get(id=request.session['participiant_id'])
-    return render(request,'participiant_profile.html',{'result':data})
+    pid=request.session.get('participiant_id')
+    if not pid:
+        return redirect(first)
+    data=participant_register.objects.get(id=pid)
+    return render(request,'participant_profile.html',{'result':data})
 
 def view_participants(request):
     data=participant_register.objects.all()
     return render(request,'view_participants.html',{'result':data})
 def user_profile(request):
-    data=user_register.objects.get(id=request.session['uid'])
+    uid=request.session.get('uid')
+    if not uid:
+        return redirect(first)
+    data=user_register.objects.get(id=uid)
     return render(request,'user_profile.html',{'result':data})
 
 def new_participant(request):
@@ -200,26 +216,35 @@ def participant_registration(request):
         category=request.POST.get('category')
         status=request.POST.get('status')
         password=request.POST.get('password')
-        UP=participant_register(name=name,email=email,phone_number=phone,age=age,gender=gender,category=category,password=password,status="pending")
+        count = participant_register.objects.count() + 1
+        chest_number = str(count).zfill(3)
+        UP=participant_register(name=name,email=email,phone_number=phone,age=age,gender=gender,category=category,password=password,status="pending",chest_number=chest_number)
         UP.save()
         # return render(request,'index.html')
         return index(request)
     
 def my_events(request):
-    data = events.objects.filter(gender=request.session['participiant_gender'])
-    status_data = registered_events.objects.filter(p_id=request.session['participiant_id'], status="submitted")
+    pid=request.session.get('participiant_id')
+    pgender=request.session.get('participiant_gender')
+    if not pid or not pgender:
+        return redirect(first)
+    data = events.objects.filter(gender=pgender)
+    status_data = registered_events.objects.filter(p_id=pid, status="submitted")
     registered_items = status_data.values_list('item', flat=True)
     filtered_data = [item for item in data if item.item not in registered_items]
     return render(request, 'filtered_events.html', {'result': filtered_data, 'reg_info': status_data})
 
 def participation_request(request):
     if request.method=="POST":
+        pid=request.session.get('participiant_id')
+        if not pid:
+            return redirect(first)
         chest_number=request.POST.get('chest_number')
         name=request.POST.get('name')
         item=request.POST.get('item')
         venue=request.POST.get('venue')
         time=request.POST.get('time')
-        UP=registered_events(chest_number=chest_number,name=name,item=item,venue=venue,time=time,result="Not Declared",p_id=request.session['participiant_id'],status="submitted")
+        UP=registered_events(chest_number=chest_number,name=name,item=item,venue=venue,time=time,result="Not Declared",p_id=pid,status="submitted")
         UP.save()
         return redirect(my_events)
 
@@ -249,14 +274,19 @@ def confirm_bet(request):
         district=request.POST.get('district')
         position=request.POST.get('position')
         payment=request.POST.get('payment')
-        main_balance=request.POST.get('main_balance')
 
-        money=float(main_balance)-float(payment)
         user=user_register.objects.get(id=user_id)
+        balance=float(user.balance) if user.balance else 0
+        bet_amount=float(payment)
+        if balance < bet_amount:
+            messages.error(request,"Insufficient balance!")
+            return redirect(bet_now)
+        money=balance-bet_amount
         user.balance=money
         up=betting_table(user_id=user_id,u_name=u_name,u_email=u_email,item=item,district=district,position=position,prize="Not declared")
         up.save()
         user.save()
+        request.session['balance'] = str(money)
     # return render(request,'index.html')
     return index(request)
 def history(request):
@@ -268,11 +298,11 @@ def declare_winners(request):
 
 def confirm_winner(request):
     if request.method=='POST':
-        user_id=request.POST.get('user_id')
+        bet_id=request.POST.get('bet_id')
         u_name=request.POST.get('u_name')
         u_email=request.POST.get('u_email')
         prize=request.POST.get('prize')
-        up=betting_table.objects.get(user_id=user_id)
+        up=betting_table.objects.get(id=bet_id)
         up.prize=prize
         up.save()
         subject = f"Congratulations! You've won the {prize} Prize at Arts Wager 🏆"
@@ -299,6 +329,8 @@ def users_list(request):
     return render(request, 'users_list.html', {'result': data})
 
 def del_user(request):
+    if not request.session.get('admin_details'):
+        return redirect(users_list)
     if request.method=="POST":
         uid=request.POST.get('user_id')
         user=user_register.objects.get(id=uid)
@@ -321,7 +353,7 @@ def acc_update(request):
 
 def update_account(request):
     if request.method=="POST":
-        uid=request.POST.get('uid')
+        uid=request.session.get('uid')
         name=request.POST.get('name')
         email=request.POST.get('email')
         phone=request.POST.get('phone')
@@ -329,7 +361,7 @@ def update_account(request):
         user=user_register.objects.get(id=uid)
         user.name=name
         user.email=email
-        user.phone=phone
+        user.phone_number=phone
         user.save()
 
         subject = f"Account Updated🤝"
@@ -342,7 +374,7 @@ def update_account(request):
 
 def change_password(request):
     if request.method=="POST":
-        uid=request.POST.get('uid')
+        uid=request.session.get('uid')
         password=request.POST.get('password')
         
         user=user_register.objects.get(id=uid)
